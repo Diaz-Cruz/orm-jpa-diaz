@@ -107,6 +107,8 @@ public class Main {
                     get("/{id}", ProductoControlador::ver);
                 });
 
+                get("/comentarios/eliminar/{id}", ComentarioControlador::eliminar);
+
                 get("/login", SeguridadControlador::mostrarLogin);
                 post("/login", SeguridadControlador::procesarLogin);
                 get("/logout", SeguridadControlador::logout);

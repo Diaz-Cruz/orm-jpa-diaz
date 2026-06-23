@@ -25,10 +25,14 @@
     <h4>Comentarios</h4>
     <ul class="list-group mb-3">
         <li class="list-group-item" th:if="${producto.comentarios.isEmpty()}">Sin comentarios.</li>
-        <li class="list-group-item" th:each="comentario : ${producto.comentarios}">
-            <strong th:text="${comentario.usuario.username}">usuario</strong>
-            <small class="text-muted" th:text="${comentario.fecha}">fecha</small>
-            <p class="mb-0" th:text="${comentario.texto}">texto</p>
+        <li class="list-group-item d-flex justify-content-between align-items-start" th:each="comentario : ${producto.comentarios}">
+            <div>
+                <strong th:text="${comentario.usuario.username}">usuario</strong>
+                <small class="text-muted" th:text="${comentario.fecha}">fecha</small>
+                <p class="mb-0" th:text="${comentario.texto}">texto</p>
+            </div>
+            <a class="btn btn-sm btn-danger" th:if="${usuario != null and usuario.rol == 'ADMIN'}"
+               th:href="@{'/comentarios/eliminar/' + ${comentario.id}}">Eliminar</a>
         </li>
     </ul>
 

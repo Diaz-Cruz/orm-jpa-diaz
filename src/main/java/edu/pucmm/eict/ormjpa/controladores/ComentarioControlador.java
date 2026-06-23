@@ -27,4 +27,25 @@ public class ComentarioControlador {
 
         ctx.redirect("/productos/" + productoId);
     }
+
+    public static void eliminar(@NotNull Context ctx) {
+        Usuario usuario = ctx.sessionAttribute("usuario");
+        if (usuario == null || !"ADMIN".equals(usuario.getRol())) {
+            ctx.redirect("/login");
+            return;
+        }
+
+        Long comentarioId = ctx.pathParamAsClass("id", Long.class).get();
+        Comentario comentario = ComentarioServices.getInstancia().find(comentarioId);
+        if (comentario == null) {
+            ctx.redirect("/productos");
+            return;
+        }
+
+        Long productoId = comentario.getProducto().getId();
+        Producto producto = ProductoServices.getInstancia().find(productoId);
+        producto.getComentarios().removeIf(c -> c.getId().equals(comentarioId));
+        ProductoServices.getInstancia().editar(producto);
+        ctx.redirect("/productos/" + productoId);
+    }
 }
