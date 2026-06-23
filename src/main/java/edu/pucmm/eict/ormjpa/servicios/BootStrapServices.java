@@ -48,6 +48,7 @@ public class BootStrapServices {
     public void init(){
          startDb();
          cargarDatosBase();
+         LogAccesoServices.inicializar();
     }
 
     /**

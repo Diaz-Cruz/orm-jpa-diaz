@@ -1,6 +1,7 @@
 package edu.pucmm.eict.ormjpa.controladores;
 
 import edu.pucmm.eict.ormjpa.entidades.Usuario;
+import edu.pucmm.eict.ormjpa.servicios.LogAccesoServices;
 import edu.pucmm.eict.ormjpa.servicios.UsuarioServices;
 import edu.pucmm.eict.ormjpa.util.Encriptacion;
 import io.javalin.http.Context;
@@ -32,6 +33,7 @@ public class SeguridadControlador {
         }
 
         ctx.sessionAttribute("usuario", usuario);
+        LogAccesoServices.registrar(usuario.getUsername());
 
         if ("on".equals(ctx.formParam("recordar"))) {
             ctx.cookie(COOKIE_RECORDAR, Encriptacion.encriptar(usuario.getUsername()), UNA_SEMANA);
