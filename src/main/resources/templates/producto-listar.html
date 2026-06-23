@@ -40,6 +40,21 @@
         </tr>
         </tbody>
     </table>
+
+    <nav th:if="${totalPaginas > 1}">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${pagina == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/productos(pagina=${pagina - 1})}">Anterior</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPaginas - 1)}"
+                th:classappend="${i == pagina} ? 'active'">
+                <a class="page-link" th:href="@{/productos(pagina=${i})}" th:text="${i + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${pagina == totalPaginas - 1} ? 'disabled'">
+                <a class="page-link" th:href="@{/productos(pagina=${pagina + 1})}">Siguiente</a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>

@@ -14,9 +14,19 @@ import java.util.Map;
 
 public class ProductoControlador {
 
+    private static final int TAMANO_PAGINA = 10;
+
     public static void listar(@NotNull Context ctx) {
+        int pagina = ctx.queryParamAsClass("pagina", Integer.class).getOrDefault(0);
+        long total = ProductoServices.getInstancia().contar();
+        int totalPaginas = (int) Math.ceil((double) total / TAMANO_PAGINA);
+        if (pagina < 0) pagina = 0;
+        if (totalPaginas > 0 && pagina >= totalPaginas) pagina = totalPaginas - 1;
+
         Map<String, Object> modelo = new HashMap<>();
-        modelo.put("productos", ProductoServices.getInstancia().findAll());
+        modelo.put("productos", ProductoServices.getInstancia().listarPaginado(pagina, TAMANO_PAGINA));
+        modelo.put("pagina", pagina);
+        modelo.put("totalPaginas", totalPaginas);
         ctx.render("/templates/producto-listar.html", modelo);
     }
 
